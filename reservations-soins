@@ -1,0 +1,298 @@
+index html
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Écho des Âmes – Réservation soins énergétiques</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background: linear-gradient(to bottom, #fffaf0, #fff0e0);
+      color: #4a3c2f;
+      line-height: 1.7;
+      margin: 0;
+      padding: 30px 15px;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: rgba(255, 250, 240, 0.96);
+      padding: 40px;
+      border-radius: 25px;
+      box-shadow: 0 15px 40px rgba(139, 90, 43, 0.1);
+    }
+    h1 { color: #8b5a2b; text-align: center; margin-bottom: 40px; font-size: 2.2em; }
+    .intro {
+      background: #fffdf8;
+      padding: 30px;
+      border-radius: 20px;
+      margin-bottom: 50px;
+      border: 1px solid #ffe0b2;
+      text-align: center;
+      font-size: 1.1em;
+    }
+    .soin {
+      background: #fffaf0;
+      border: 5px solid #d4b89e;
+      border-radius: 22px;
+      margin: 35px 0;
+      padding: 35px;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      position: relative;
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 1.25em;
+    }
+    .soin:hover { background: #fff5e8; box-shadow: 0 12px 35px rgba(200, 140, 80, 0.18); transform: translateY(-5px); }
+    .soin h3 { margin: 0; color: #8b5a2b; font-size: 1.9em; }
+    .soin::after {
+      content: '▼';
+      position: absolute;
+      right: 35px;
+      top: 40px;
+      font-size: 1.7em;
+      color: #a67c52;
+      transition: transform 0.4s ease;
+    }
+    .soin.open::after { transform: rotate(180deg); }
+    .details {
+      display: none;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.7s ease, opacity 0.6s ease;
+      background: #fffdf8;
+      padding: 0 35px;
+      border-radius: 0 0 22px 22px;
+      border-top: 1px solid #e0d4c0;
+    }
+    .details.open {
+      max-height: 4000px;
+      opacity: 1;
+      padding: 35px;
+    }
+    input, textarea, select, button {
+      width: 100%;
+      padding: 15px;
+      margin: 14px 0;
+      border-radius: 12px;
+      border: 1px solid #d4b89e;
+      font-size: 1.1em;
+      box-sizing: border-box;
+    }
+    textarea { height: 180px; resize: vertical; }
+    button {
+      background: #d98c5f;
+      color: white;
+      border: none;
+      cursor: pointer;
+      padding: 18px;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    button:hover { background: #c26e40; }
+    .indisponible {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background: #f8f8f8;
+    }
+    .indisponible::after {
+      content: 'Complet';
+      position: absolute;
+      right: 35px;
+      top: 35px;
+      color: #b22222;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>🌿 Écho des Âmes – Soins énergétiques à distance</h1>
+
+  <div class="intro">
+    <p>Je propose des prestations énergétiques programmées et réalisées à distance.<br>
+    Chaque séance est personnalisée selon vos besoins du moment afin de rééquilibrer, harmoniser et soutenir la circulation de vos énergies.</p>
+    <p><strong>Les soins sont réalisés dans la semaine que vous réservez.</strong><br>
+    Vous recevrez ensuite un mail avec le bilan détaillé, les instructions pour recevoir le soin et mon RIB.</p>
+  </div>
+
+  <!-- Rituel de libération -->
+  <div class="soin" onclick="toggle('rituel')">
+    <h3>Rituel de libération – 30 €</h3>
+  </div>
+  <div id="rituel" class="details">
+    <p>Harmonisation énergétique simple, pour un rééquilibrage doux et quotidien.</p>
+    <label>Merci de décrire ce que vous souhaitez libérer :</label>
+    <textarea id="desc-rituel"></textarea>
+    <label>Choisissez votre semaine :</label>
+    <select id="semaine-rituel"></select>
+    <label>Votre nom :</label>
+    <input type="text" id="nom-rituel" required>
+    <label>Votre prénom :</label>
+    <input type="text" id="prenom-rituel" required>
+    <label>Votre adresse mail :</label>
+    <input type="email" id="mail-rituel" required>
+    <button onclick="envoyer('rituel')">Réserver ce soin</button>
+  </div>
+
+  <!-- Soin intuitif -->
+  <div class="soin" onclick="toggle('intuitif')">
+    <h3>Soin intuitif – 60 €</h3>
+  </div>
+  <div id="intuitif" class="details">
+    <p>Un soin global basé sur l’intuition énergétique qui agit sur l’ensemble des énergies du corps pour lever les blocages, apaiser les tensions et rétablir l’équilibre.</p>
+    <label>Décrivez vos besoins ou tensions que vous souhaitez travailler :</label>
+    <textarea id="desc-intuitif"></textarea>
+    <label>Choisissez votre semaine :</label>
+    <select id="semaine-intuitif"></select>
+    <label>Votre nom :</label>
+    <input type="text" id="nom-intuitif" required>
+    <label>Votre prénom :</label>
+    <input type="text" id="prenom-intuitif" required>
+    <label>Votre adresse mail :</label>
+    <input type="email" id="mail-intuitif" required>
+    <button onclick="envoyer('intuitif')">Réserver ce soin</button>
+  </div>
+
+  <!-- Harmonisation habitat -->
+  <div class="soin" onclick="toggle('habitat')">
+    <h3>Harmonisation énergétique de l’habitat – 40 €</h3>
+  </div>
+  <div id="habitat" class="details">
+    <p>Nettoyage et réalignement de l’énergie de votre lieu de vie ou travail.</p>
+    <label>Adresse postale complète du lieu :</label>
+    <input type="text" id="adresse-habitat" required>
+    <label>Remarque(s) pour cette prestation (bruit, ambiance, sommeil…) :</label>
+    <textarea id="remarque-habitat"></textarea>
+    <label>Choisissez votre semaine :</label>
+    <select id="semaine-habitat"></select>
+    <label>Votre nom :</label>
+    <input type="text" id="nom-habitat" required>
+    <label>Votre prénom :</label>
+    <input type="text" id="prenom-habitat" required>
+    <label>Votre adresse mail :</label>
+    <input type="email" id="mail-habitat" required>
+    <button onclick="envoyer('habitat')">Réserver ce soin</button>
+  </div>
+
+  <!-- Pack habitat + soin familial -->
+  <div class="soin" onclick="toggle('pack')">
+    <h3>Pack Habitat + Soin familial – 70 €</h3>
+  </div>
+  <div id="pack" class="details">
+    <p>Harmonisation du lieu + soin énergétique pour tous les occupants.</p>
+    <label>Adresse postale complète du lieu :</label>
+    <input type="text" id="adresse-pack" required>
+    <label>Merci de préciser le nom, prénom des personnes vivant dans le logement qui bénéficieront du soin familial. Veuillez préciser s'il y a des enfants en bas âge :</label>
+    <textarea id="personnes-pack" required></textarea>
+    <label>Remarque(s) pour cette prestation (bruit, ambiance, sommeil…) :</label>
+    <textarea id="remarque-pack"></textarea>
+    <label>Choisissez votre semaine :</label>
+    <select id="semaine-pack"></select>
+    <label>Votre nom :</label>
+    <input type="text" id="nom-pack" required>
+    <label>Votre prénom :</label>
+    <input type="text" id="prenom-pack" required>
+    <label>Votre adresse mail :</label>
+    <input type="email" id="mail-pack" required>
+    <button onclick="envoyer('pack')">Réserver ce soin</button>
+  </div>
+</div>
+
+<script>
+const places = {
+  "2-8 mars 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "9-15 mars 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "16-22 mars 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "23-29 mars 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "30 mars - 5 avril 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "6-12 avril 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "13-19 avril 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "20-26 avril 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "27 avril - 3 mai 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "4-10 mai 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "11-17 mai 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "18-24 mai 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "25-31 mai 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "1-7 juin 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "8-14 juin 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "15-21 juin 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "22-28 juin 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "29 juin - 5 juillet 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "6-12 juillet 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "13-19 juillet 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "20-26 juillet 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "27 juillet - 2 août 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "3-9 août 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "10-16 août 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "17-23 août 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "24-30 août 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "31 août - 6 septembre 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "7-13 septembre 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "14-20 septembre 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "21-27 septembre 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "28 septembre - 4 octobre 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "5-11 octobre 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "12-18 octobre 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "19-25 octobre 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "26 octobre - 1 novembre 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "2-8 novembre 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "9-15 novembre 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "16-22 novembre 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "23-29 novembre 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "30 novembre - 6 décembre 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "7-13 décembre 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "14-20 décembre 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "21-27 décembre 2026": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 },
+  "28 déc. 2026 - 3 jan. 2027": { rituel: 50, intuitif: 15, habitat: 5, pack: 5 }
+};
+
+const semaines = Object.keys(places);
+
+semaines.forEach(s => {
+  ['rituel', 'intuitif', 'habitat', 'pack'].forEach(type => {
+    const opt = document.createElement('option');
+    opt.value = s;
+    opt.textContent = s;
+    document.getElementById('semaine-' + type).appendChild(opt);
+  });
+});
+
+function toggle(id) {
+  document.querySelectorAll('.details').forEach(d => d.classList.remove('open'));
+  document.querySelectorAll('.soin').forEach(s => s.classList.remove('open'));
+  const details = document.getElementById(id);
+  const soin = details.previousElementSibling;
+  details.classList.toggle('open');
+  soin.classList.toggle('open');
+}
+
+function envoyer(type) {
+  const nom = document.getElementById('nom-' + type).value.trim();
+  const prenom = document.getElementById('prenom-' + type).value.trim();
+  const mail = document.getElementById('mail-' + type).value.trim();
+  const semaine = document.getElementById('semaine-' + type).value;
+
+  if (!nom || !prenom || !mail || !semaine) {
+    alert("Veuillez remplir tous les champs obligatoires : nom, prénom, mail et semaine.");
+    return;
+  }
+
+  if (places[semaine][type] <= 0) {
+    alert("Plus de place pour ce soin cette semaine.");
+    return;
+  }
+
+  // Décrémente les places localement (affichage)
+  places[semaine][type]--;
+  if (places[semaine][type] <= 0) {
+    const soinElement = document.querySelector(`.soin[onclick="toggle('${type}')"]`);
+    if (soinElement) soinElement.classList.add('indisponible');
+  }
+
+  alert(`Réservé !\n\nMerci ${prenom} ${nom}.\n\n${type.charAt(0).toUpperCase() + type.slice(1)}\nSemaine : ${semaine}\n\nTu vas recevoir un mail de confirmation. Merci pour ta confiance ♡`);
+}
+</script>
+</body>
+</html>
